@@ -1,0 +1,30 @@
+/* App specific styles if needed, mostly handled in index.css or modules */
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Header is absolute relative to this or viewport? */
+  /* If Header is absolute top:0 left:0 right:0 of main-wrapper, we need padding-top */
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #121212;
+  color: var(--text-primary);
+  margin-top: 64px;
+  /* Space for header */
+}
+
+.placeholder-content {
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}

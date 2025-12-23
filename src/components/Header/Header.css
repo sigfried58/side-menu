@@ -1,0 +1,74 @@
+.app-header {
+    height: 64px;
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    position: absolute;
+    /* Fixed at top, but inside content area */
+    top: 0;
+    left: 0;
+    /* Will be offset by sidebar width via padding or layout grid */
+    right: 0;
+    z-index: 10;
+    color: var(--text-primary);
+}
+
+.header-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-icon-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.header-icon-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 8px 4px 4px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.user-profile:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.username {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
