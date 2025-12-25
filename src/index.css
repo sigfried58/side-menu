@@ -14,24 +14,28 @@
 
   --sidebar-width: 250px;
   --sidebar-collapsed-width: 64px;
-  --bg-dark: #0f0f11; /* Deeper dark for sidebar */
-  --bg-panel: #18181b; /* Slightly lighter for panels */
+  --bg-dark: #0f0f11;
+  /* Deeper dark for sidebar */
+  --bg-panel: #18181b;
+  /* Slightly lighter for panels */
   --accent: #646cff;
   --accent-hover: #535bf2;
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
   --border-color: #27272a;
-  
+
   --transition-speed: 0.3s;
 }
 
 body {
   margin: 0;
   display: flex;
-  place-items: center; /* This might center everything, we want full layout */
+  place-items: center;
+  /* This might center everything, we want full layout */
   min-width: 320px;
   min-height: 100vh;
-  background-color: #121212; /* Content background */
+  background-color: #121212;
+  /* Content background */
 }
 
 /* Reset for app layout */
@@ -40,7 +44,16 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  display: flex; /* Sidebar + Content */
+  display: flex;
+  flex-direction: column;
+  /* Header top, App body bottom */
+  overflow: hidden;
+}
+
+.app-container {
+  display: flex;
+  /* Sidebar left, Main right */
+  flex: 1;
   overflow: hidden;
 }
 
@@ -48,18 +61,22 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #3f3f46;
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #52525b;
 }
 
 button {
-  all: unset; /* Reset button styles */
+  all: unset;
+  /* Reset button styles */
   cursor: pointer;
 }

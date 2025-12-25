@@ -17,8 +17,6 @@
   overflow-y: auto;
   background-color: #121212;
   color: var(--text-primary);
-  margin-top: 64px;
-  /* Space for header */
 }
 
 .placeholder-content {
