@@ -1,14 +1,24 @@
-import React from 'react';
-import { Bell, User, HelpCircle } from 'lucide-react';
+import { Bell, User, HelpCircle, Menu } from 'lucide-react';
 import { useProductTour } from '../../hooks/useProductTour';
 import './Header.css';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+    onMenuToggle: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
     const { startTour } = useProductTour();
 
     return (
         <header id="app-header" className="app-header">
             <div className="header-left">
+                <button
+                    className="menu-toggle-btn"
+                    onClick={onMenuToggle}
+                    aria-label="Toggle Menu"
+                >
+                    <Menu size={24} />
+                </button>
                 {/* Placeholder for Breadcrumbs or Title */}
                 <span className="header-title">My Application</span>
             </div>

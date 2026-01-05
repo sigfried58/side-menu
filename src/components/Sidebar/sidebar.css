@@ -1,3 +1,9 @@
+.sidebar-container {
+    display: flex;
+    height: 100%;
+    position: relative;
+}
+
 /* ROOT SIDEBAR */
 .sidebar-root {
     width: var(--sidebar-width);
@@ -145,5 +151,68 @@
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+/* MOBILE RESPONSIVE */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 64px;
+    /* Below header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    backdrop-filter: blur(2px);
+}
+
+@media (max-width: 768px) {
+    .sidebar-container {
+        position: static !important;
+    }
+
+    .sidebar-container.mobile-open .mobile-overlay {
+        display: block;
+    }
+
+    .sidebar-root {
+        position: fixed;
+        left: -100%;
+        top: 64px;
+        bottom: 0;
+        height: auto;
+        transition: left 0.3s ease;
+        width: 280px !important;
+        z-index: 1000;
+        background-color: var(--bg-dark);
+    }
+
+    .sidebar-container.mobile-open .sidebar-root {
+        left: 0;
+    }
+
+    /* Hide collapse button on mobile */
+    .collapse-btn {
+        display: none;
+    }
+
+    /* Submenu Panels on Mobile */
+    .sidebar-container .active-panel .submenu-panel {
+        position: fixed;
+        left: 0 !important;
+        top: 64px;
+        bottom: 0;
+        height: auto;
+        width: 280px !important;
+        transition: left 0.3s ease;
+        z-index: 1100;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Ensure non-active panels are hidden or off-screen */
+    .sidebar-container div:not(.active-panel) .submenu-panel {
+        left: -100% !important;
     }
 }

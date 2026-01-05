@@ -1,15 +1,30 @@
+import { useState } from 'react';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import { Header } from './components/Header/Header';
 import { navigationData } from './data/navigation';
 import './App.css';
 
 function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div id="root">
-      <Header />
+      <Header onMenuToggle={toggleMobileMenu} />
       <div className="app-container">
         {/* Sidebar - z-index high, fixed height */}
-        <Sidebar items={navigationData} />
+        <Sidebar
+          items={navigationData}
+          isMobileOpen={isMobileMenuOpen}
+          onCloseMobile={closeMobileMenu}
+        />
 
         {/* Main Content Wrapper - Flex 1 */}
         <div className="main-wrapper">

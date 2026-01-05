@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { NavigationItem } from '../../types';
 import { SidebarItem } from './SidebarItem';
@@ -7,11 +7,20 @@ import './sidebar.css';
 
 interface SidebarProps {
     items: NavigationItem[];
+    isMobileOpen: boolean;
+    onCloseMobile: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ items }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ items, isMobileOpen, onCloseMobile }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activePath, setActivePath] = useState<NavigationItem[]>([]);
+
+    // Clear active path when mobile menu closes
+    useEffect(() => {
+        if (!isMobileOpen) {
+            setActivePath([]);
+        }
+    }, [isMobileOpen]);
 
     const toggleCollapse = () => {
         setIsCollapsed(!isCollapsed);
@@ -34,7 +43,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ items }) => {
     const panelWidth = 250;
 
     return (
-        <div className="sidebar-container" style={{ position: 'relative' }}>
+        <div className={`sidebar-container ${isMobileOpen ? 'mobile-open' : ''}`}>
+            {/* MOBILE OVERLAY */}
+            <div className="mobile-overlay" onClick={onCloseMobile} />
+
             {/* ROOT SIDEBAR (Level 0) */}
             <div id="sidebar-root" className={`sidebar-root ${isCollapsed ? 'collapsed' : ''}`}>
                 <div style={{ flex: 1, overflowY: 'auto' }}>
@@ -68,10 +80,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ items }) => {
 
                 const nextItem = activePath[index + 1];
                 const leftPos = rootWidth + (index * panelWidth);
+                const isLast = index === activePath.length - 1;
 
                 return (
                     <div
                         key={item.id}
+                        className={isLast ? 'active-panel' : ''}
                         style={{
                             position: 'absolute',
                             left: leftPos,
