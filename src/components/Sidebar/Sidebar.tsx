@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { NavigationItem } from '../../types';
 import { SidebarItem } from './SidebarItem';
@@ -15,12 +15,30 @@ export const Sidebar: React.FC<SidebarProps> = ({ items, isMobileOpen, onCloseMo
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activePath, setActivePath] = useState<NavigationItem[]>([]);
 
+    const sidebarRef = useRef<HTMLDivElement>(null);
+
     // Clear active path when mobile menu closes
     useEffect(() => {
         if (!isMobileOpen) {
             setActivePath([]);
         }
     }, [isMobileOpen]);
+
+    // Close panels when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+                if (activePath.length > 0) {
+                    setActivePath([]);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [activePath]);
 
     const toggleCollapse = () => {
         setIsCollapsed(!isCollapsed);
@@ -43,7 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ items, isMobileOpen, onCloseMo
     const panelWidth = 250;
 
     return (
-        <div className={`sidebar-container ${isMobileOpen ? 'mobile-open' : ''}`}>
+        <div ref={sidebarRef} className={`sidebar-container ${isMobileOpen ? 'mobile-open' : ''}`}>
             {/* MOBILE OVERLAY */}
             <div className="mobile-overlay" onClick={onCloseMobile} />
 
