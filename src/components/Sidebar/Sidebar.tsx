@@ -45,6 +45,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ items, isMobileOpen, onCloseMo
     };
 
     const handleRootClick = (item: NavigationItem) => {
+        if (!item.children || item.children.length === 0) {
+            onCloseMobile();
+            setActivePath([]);
+            return;
+        }
         if (activePath[0]?.id === item.id) {
             return;
         }
@@ -52,16 +57,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ items, isMobileOpen, onCloseMo
     };
 
     const handleSubItemClick = (item: NavigationItem, depth: number) => {
-        const newPath = activePath.slice(0, depth + 1);
-        newPath[depth] = item;
-        setActivePath(newPath);
+        if (!item.children || item.children.length === 0) {
+            onCloseMobile();
+            return;
+        }
+        setActivePath(prev => {
+            const newPath = prev.slice(0, depth);
+            newPath[depth] = item;
+            return newPath;
+        });
     };
 
-    const rootWidth = isCollapsed ? 64 : 250;
-    const panelWidth = 250;
+    const handleBack = () => {
+        setActivePath(prev => prev.slice(0, -1));
+    };
+
+    const isPanelOpen = activePath.length > 0;
 
     return (
-        <div ref={sidebarRef} className={`sidebar-container ${isMobileOpen ? 'mobile-open' : ''}`}>
+        <div ref={sidebarRef} className={`sidebar-container ${isMobileOpen ? 'mobile-open' : ''} ${isPanelOpen ? 'panel-open' : ''}`}>
             {/* MOBILE OVERLAY */}
             <div className="mobile-overlay" onClick={onCloseMobile} />
 
@@ -97,26 +111,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ items, isMobileOpen, onCloseMo
                 if (!item.children || item.children.length === 0) return null;
 
                 const nextItem = activePath[index + 1];
-                const leftPos = rootWidth + (index * panelWidth);
                 const isLast = index === activePath.length - 1;
 
                 return (
                     <div
                         key={item.id}
-                        className={isLast ? 'active-panel' : ''}
+                        className={`submenu-panel-wrapper ${isLast ? 'active-panel' : ''}`}
                         style={{
-                            position: 'absolute',
-                            left: leftPos,
-                            top: 0,
-                            bottom: 0,
-                            zIndex: 49 - index
-                        }}
+                            zIndex: 1100 + index,
+                            '--panel-index': index
+                        } as any}
                     >
                         <SubmenuPanel
                             title={item.label}
                             items={item.children}
                             activeId={nextItem?.id}
                             onSelect={(selectedItem) => handleSubItemClick(selectedItem, index + 1)}
+                            onBack={handleBack}
                         />
                     </div>
                 );

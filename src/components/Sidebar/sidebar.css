@@ -79,9 +79,14 @@
 }
 
 /* PANELS (SUBMENU) */
-.submenu-panel {
+.submenu-panel-wrapper {
     position: absolute;
     top: 0;
+    bottom: 0;
+    left: calc(var(--sidebar-width) + (var(--panel-index) * 250px));
+}
+
+.submenu-panel {
     width: 250px;
     height: 100%;
     /* Relative to its absolute container which is also 100% */
@@ -97,7 +102,7 @@
 }
 
 .submenu-header {
-    padding: 16px;
+    padding: 0 16px;
     height: 64px;
     /* Match header height */
     box-sizing: border-box;
@@ -106,7 +111,28 @@
     color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+}
+
+.back-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    transition: background-color 0.2s, color 0.2s;
+    margin-left: -8px;
+}
+
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.submenu-title {
+    flex: 1;
 }
 
 .collapse-btn {
@@ -150,7 +176,7 @@
 
     to {
         opacity: 1;
-        transform: translateX(0);
+        transform: none;
     }
 }
 
@@ -163,9 +189,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 999;
-    backdrop-filter: blur(2px);
 }
 
 @media (max-width: 768px) {
@@ -193,26 +218,38 @@
         left: 0;
     }
 
+    .sidebar-container.mobile-open.panel-open .sidebar-root {
+        left: -100% !important;
+    }
+
     /* Hide collapse button on mobile */
     .collapse-btn {
         display: none;
     }
 
     /* Submenu Panels on Mobile */
-    .sidebar-container .active-panel .submenu-panel {
+    .submenu-panel-wrapper {
         position: fixed;
-        left: 0 !important;
+        left: -100%;
         top: 64px;
         bottom: 0;
-        height: auto;
-        width: 280px !important;
+        width: 100%;
+        max-width: 280px;
         transition: left 0.3s ease;
         z-index: 1100;
+    }
+
+    .submenu-panel-wrapper.active-panel {
+        left: 0;
+    }
+
+    .submenu-panel {
+        width: 100%;
+        height: 100%;
         box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
     }
 
-    /* Ensure non-active panels are hidden or off-screen */
-    .sidebar-container div:not(.active-panel) .submenu-panel {
-        left: -100% !important;
+    .back-btn {
+        display: flex;
     }
 }
